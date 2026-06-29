@@ -1,52 +1,56 @@
 {
-  "best_model": "XGBoost",
+  "best_model": "StackingEnsemble",
   "best_params": {
-    "model__learning_rate": 0.05,
-    "model__max_depth": 3,
-    "model__n_estimators": 100
+    "model__cv": 2,
+    "model__final_estimator__alphas": [
+      0.01,
+      0.1,
+      1.0
+    ],
+    "model__passthrough": true
   },
-  "cv_best_score": -2.4163,
+  "cv_best_score": 0.9933,
   "tuned_validation_metrics": {
-    "val_r2": 0.5658,
-    "val_mae": 0.4938,
-    "val_rmse": 0.4942
+    "val_r2": 0.9961,
+    "val_mae": 0.63,
+    "val_rmse": 0.7507
   },
   "baseline_metrics": {
     "RandomForest": {
-      "train_r2": 0.9595,
-      "val_r2": -0.7232,
-      "train_mae": 0.5474,
-      "val_mae": 0.9428,
-      "train_rmse": 0.6269,
-      "val_rmse": 0.9845,
-      "overfit_gap": 1.6827
+      "train_r2": 0.9475,
+      "val_r2": 0.5765,
+      "train_mae": 1.5794,
+      "val_mae": 6.1353,
+      "train_rmse": 1.8588,
+      "val_rmse": 7.842,
+      "overfit_gap": 0.371
     },
     "XGBoost": {
       "train_r2": 1.0,
-      "val_r2": 0.7664,
+      "val_r2": 0.8732,
       "train_mae": 0.0004,
-      "val_mae": 0.3354,
+      "val_mae": 4.1421,
       "train_rmse": 0.0006,
-      "val_rmse": 0.3625,
-      "overfit_gap": 0.2336
+      "val_rmse": 4.291,
+      "overfit_gap": 0.1268
     },
     "VotingEnsemble": {
-      "train_r2": 0.9899,
-      "val_r2": 0.1951,
-      "train_mae": 0.2739,
-      "val_mae": 0.6391,
-      "train_rmse": 0.3137,
-      "val_rmse": 0.6729,
-      "overfit_gap": 0.7948
+      "train_r2": 0.9869,
+      "val_r2": 0.7691,
+      "train_mae": 0.7899,
+      "val_mae": 4.5132,
+      "train_rmse": 0.9297,
+      "val_rmse": 5.7905,
+      "overfit_gap": 0.2178
     },
     "StackingEnsemble": {
-      "train_r2": 0.9866,
-      "val_r2": -0.0956,
-      "train_mae": 0.3365,
-      "val_mae": 0.5947,
-      "train_rmse": 0.3599,
-      "val_rmse": 0.785,
-      "overfit_gap": 1.0823
+      "train_r2": 0.9998,
+      "val_r2": 0.9994,
+      "train_mae": 0.0983,
+      "val_mae": 0.2855,
+      "train_rmse": 0.1197,
+      "val_rmse": 0.2879,
+      "overfit_gap": 0.0004
     }
   }
 }
