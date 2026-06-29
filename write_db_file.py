@@ -1,6 +1,7 @@
-import sqlite3
 from pathlib import Path
-import pandas as pd
+
+content = '''import sqlite3
+from pathlib import Path
 
 DB_PATH = Path(__file__).resolve().parents[1] / "data" / "predictions.db"
 
@@ -9,8 +10,7 @@ def init_db():
     """Initialize database and create table if not exists."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute(
-        """
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS predictions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             year INTEGER,
@@ -19,35 +19,24 @@ def init_db():
             fuel_type TEXT,
             seller_type TEXT,
             transmission TEXT,
-            brand TEXT,
             predicted_price REAL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-        """
-    )
-
-    cursor.execute("PRAGMA table_info(predictions)")
-    existing_columns = [row[1] for row in cursor.fetchall()]
-    if "brand" not in existing_columns:
-        cursor.execute("ALTER TABLE predictions ADD COLUMN brand TEXT")
-
+        """)
     conn.commit()
     conn.close()
 
 
-def save_prediction(year, present_price, kms_driven, fuel_type, seller_type, transmission, brand, predicted_price):
+def save_prediction(year, present_price, kms_driven, fuel_type, seller_type, transmission, predicted_price):
     """Save a prediction record into the database."""
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute(
-        """
+    cursor.execute("""
         INSERT INTO predictions (
-            year, present_price, kms_driven, fuel_type, seller_type, transmission, brand, predicted_price
+            year, present_price, kms_driven, fuel_type, seller_type, transmission, predicted_price
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-        (year, present_price, kms_driven, fuel_type, seller_type, transmission, brand, predicted_price),
-    )
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """, (year, present_price, kms_driven, fuel_type, seller_type, transmission, predicted_price))
     conn.commit()
     conn.close()
 
@@ -58,6 +47,9 @@ def get_all_predictions():
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM predictions ORDER BY created_at DESC")
     rows = cursor.fetchall()
-    columns = [description[0] for description in cursor.description]
     conn.close()
-    return pd.DataFrame(rows, columns=columns)
+    return rows
+'''
+
+Path('app/database.py').write_text(content, encoding='utf-8')
+print('database.py restored')

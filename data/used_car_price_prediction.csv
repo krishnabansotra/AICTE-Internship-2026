@@ -1,9 +1,26 @@
-Year,Present_Price,Kms_Driven,Fuel_Type,Seller_Type,Transmission,Price
-2015,5.59,27000,Petrol,Dealer,Manual,3.6
-2013,9.54,43000,Diesel,Individual,Manual,4.5
-2017,11.23,15000,Petrol,Dealer,Automatic,7.2
-2011,7.50,60000,Diesel,Dealer,Manual,2.9
-2018,15.00,12000,Petrol,Individual,Automatic,10.5
-2014,4.75,35000,CNG,Dealer,Manual,2.1
-2016,8.20,22000,Diesel,Individual,Manual,5.0
-2019,12.00,18000,Petrol,Dealer,Automatic,9.0
+import pandas as pd
+import numpy as np
+
+# Load dataset
+df = pd.read_csv("used_car_price_prediction_1M - Copy.csv")
+
+# Feature engineering
+df["Car_Age"] = 2026 - df["Year"]
+df["Price_Difference"] = df["Present_Price"] - df["Selling_Price"]
+df["PricePerKm"] = df["Selling_Price"] / (df["Kms_Driven"] + 1)
+df["Log_Kms_Driven"] = np.log1p(df["Kms_Driven"])
+df["PricePerYear"] = df["Selling_Price"] / df["Car_Age"]
+df["PricePerOwner"] = df["Selling_Price"] / (df["Owner"] + 1)
+
+# Encode categorical variables
+df["Fuel_Type_Encoded"] = df["Fuel_Type"].map({"Petrol":0, "Diesel":1, "CNG":2})
+df["Seller_Type_Encoded"] = df["Seller_Type"].map({"Dealer":0, "Individual":1})
+df["Transmission_Encoded"] = df["Transmission"].map({"Manual":0, "Automatic":1})
+
+# Extract brand info
+df["Car_Brand"] = df["Car_Name"].str.split(" ").str[0]
+df["Brand_Frequency"] = df.groupby("Car_Brand")["Car_Brand"].transform("count")
+
+# Save updated dataset
+df.to_csv("used_car_price_prediction.csv", index=False)
+print("✅ Updated dataset saved as used_car_price_prediction.csv")

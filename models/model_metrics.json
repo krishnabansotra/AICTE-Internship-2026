@@ -1,0 +1,52 @@
+{
+  "best_model": "XGBoost",
+  "best_params": {
+    "model__learning_rate": 0.05,
+    "model__max_depth": 3,
+    "model__n_estimators": 100
+  },
+  "cv_best_score": -2.4163,
+  "tuned_validation_metrics": {
+    "val_r2": 0.5658,
+    "val_mae": 0.4938,
+    "val_rmse": 0.4942
+  },
+  "baseline_metrics": {
+    "RandomForest": {
+      "train_r2": 0.9595,
+      "val_r2": -0.7232,
+      "train_mae": 0.5474,
+      "val_mae": 0.9428,
+      "train_rmse": 0.6269,
+      "val_rmse": 0.9845,
+      "overfit_gap": 1.6827
+    },
+    "XGBoost": {
+      "train_r2": 1.0,
+      "val_r2": 0.7664,
+      "train_mae": 0.0004,
+      "val_mae": 0.3354,
+      "train_rmse": 0.0006,
+      "val_rmse": 0.3625,
+      "overfit_gap": 0.2336
+    },
+    "VotingEnsemble": {
+      "train_r2": 0.9899,
+      "val_r2": 0.1951,
+      "train_mae": 0.2739,
+      "val_mae": 0.6391,
+      "train_rmse": 0.3137,
+      "val_rmse": 0.6729,
+      "overfit_gap": 0.7948
+    },
+    "StackingEnsemble": {
+      "train_r2": 0.9866,
+      "val_r2": -0.0956,
+      "train_mae": 0.3365,
+      "val_mae": 0.5947,
+      "train_rmse": 0.3599,
+      "val_rmse": 0.785,
+      "overfit_gap": 1.0823
+    }
+  }
+}
